@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Home,
@@ -51,7 +51,7 @@ type Project = {
   detail: string;
   tags: string[];
   image?: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   insights?: string[];
 };
 
@@ -133,7 +133,7 @@ function ProjectVisual({
 }: {
   image?: string;
   alt: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   title: string;
   subtitle: string;
 }) {
