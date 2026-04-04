@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { track } from "@vercel/analytics";
 import {
   Home,
   FolderKanban,
@@ -163,6 +164,149 @@ function ProjectVisual({
   );
 }
 
+function ProjectExplainer({
+  businessValue,
+  technicalApproach,
+  interviewVersion,
+}: {
+  businessValue: string;
+  technicalApproach: string;
+  interviewVersion: string;
+}) {
+  const [tab, setTab] = useState<"business" | "technical" | "interview">(
+    "business"
+  );
+
+  const contentMap = {
+    business: businessValue,
+    technical: technicalApproach,
+    interview: interviewVersion,
+  };
+
+  return (
+    <div className="mt-8 rounded-3xl border border-white/50 bg-white/70 p-6 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+      <div className="mb-4 flex flex-wrap gap-3">
+        <button
+          onClick={() => {
+            setTab("business");
+            track("project_explainer_tab", { tab: "business" });
+          }}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+            tab === "business"
+              ? "bg-cyan-700 text-white"
+              : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+          }`}
+        >
+          Business Perspective
+        </button>
+
+        <button
+          onClick={() => {
+            setTab("technical");
+            track("project_explainer_tab", { tab: "technical" });
+          }}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+            tab === "technical"
+              ? "bg-cyan-700 text-white"
+              : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+          }`}
+        >
+          Approach
+        </button>
+
+        <button
+          onClick={() => {
+            setTab("interview");
+            track("project_explainer_tab", { tab: "interview" });
+          }}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+            tab === "interview"
+              ? "bg-cyan-700 text-white"
+              : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+          }`}
+        >
+          Interview Version
+        </button>
+      </div>
+
+      <p className="text-base leading-8 text-slate-700 md:text-lg">
+        {contentMap[tab]}
+      </p>
+    </div>
+  );
+}
+
+function DashboardPreview() {
+  const [view, setView] = useState<"overview" | "engagement" | "trends">(
+    "overview"
+  );
+
+  const cards =
+    view === "overview"
+      ? [
+          { label: "Top Artist Score", value: "92" },
+          { label: "Average Engagement", value: "78%" },
+          { label: "Listener Growth", value: "+14%" },
+        ]
+      : view === "engagement"
+      ? [
+          { label: "Playlist Adds", value: "12.4K" },
+          { label: "Skip Rate", value: "18%" },
+          { label: "Save Rate", value: "41%" },
+        ]
+      : [
+          { label: "Weekly Trend", value: "+9.3%" },
+          { label: "Top Region", value: "United States" },
+          { label: "Momentum", value: "High" },
+        ];
+
+  return (
+    <div className="mt-8 rounded-[2rem] border border-white/50 bg-white/70 p-6 shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+      <div className="mb-5 flex flex-wrap gap-3">
+        {(["overview", "engagement", "trends"] as const).map((item) => (
+          <button
+            key={item}
+            onClick={() => {
+              setView(item);
+              track("spotify_preview_view", { view: item });
+            }}
+            className={`rounded-full px-4 py-2 text-sm font-semibold capitalize transition ${
+              view === item
+                ? "bg-slate-950 text-white"
+                : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+            }`}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {cards.map((card) => (
+          <div
+            key={card.label}
+            className="rounded-2xl border border-black/10 bg-gradient-to-br from-cyan-50 to-sky-50 p-5"
+          >
+            <p className="text-sm font-medium text-slate-600">{card.label}</p>
+            <p className="mt-2 text-3xl font-black text-slate-900">{card.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 rounded-2xl border border-black/10 bg-slate-950 p-5 text-white">
+        <p className="text-sm uppercase tracking-[0.2em] text-cyan-300">
+          Preview Insight
+        </p>
+        <p className="mt-3 text-base leading-7 text-slate-200">
+          This preview reflects how I think about dashboards: keep the structure
+          simple, focus on the measures that matter, and help a user understand
+          the story quickly without being overwhelmed by too many visuals.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Page() {
   const [activeSection, setActiveSection] = useState<SectionId>("home");
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -171,52 +315,72 @@ export default function Page() {
     {
       id: "patent",
       title: "Student Patent Novelty Check",
-      subtitle: "Graduate Assistant Project | Analytics & Data Platforms",
+      subtitle: "Early-stage innovation support platform",
       description:
-        "Built a data-driven platform to help users evaluate early-stage ideas by retrieving similar patents, surfacing relevant sections, and presenting results in a more structured and interpretable way.",
+        "Built a platform to help users assess whether an idea may already exist in the patent landscape by making a difficult research process more structured, interpretable, and decision-friendly.",
       detail:
-        "I helped shape a workflow that supports early-stage innovation analysis by organizing patent information into a more usable experience for students and researchers. The project combined backend data handling, APIs, analytics logic, and product-style thinking to turn a complex research process into clearer decision support.",
-      tags: ["Python", "FastAPI", "SQL", "APIs", "Semantic Search", "Analytics"],
+        "The real value of this project was not just searching patents. It was simplifying a process that is usually overwhelming for students and early-stage innovators, and turning it into something clearer, more usable, and more actionable. I focused on how the user moves from uncertainty to a more informed decision.",
+      tags: [
+        "Product Thinking",
+        "Research Workflow",
+        "Decision Support",
+        "Python",
+        "FastAPI",
+        "Structured Search",
+      ],
       image: "/patent-project.png",
       icon: <Search className="h-12 w-12" />,
       insights: [
-        "Structured a complex research workflow into a clearer decision-support tool",
-        "Translated analytical outputs into interpretable, user-friendly insights",
-        "Combined backend pipelines with product-style thinking",
+        "Made a complex research workflow easier to understand",
+        "Focused on clarity, usability, and structured interpretation",
+        "Connected backend logic with real user decision-making needs",
       ],
     },
     {
       id: "bestbuy",
       title: "Best Buy Laptop Pricing Analytics",
-      subtitle: "Web Scraping, Data Engineering & Machine Learning",
+      subtitle: "Pricing, discount, and product-positioning analysis",
       description:
-        "Developed an end-to-end analytics workflow to scrape, clean, store, and analyze laptop listings to understand what drives pricing and discounting.",
+        "Built an analytics workflow to understand what drives laptop pricing and discounting, and to turn raw online product data into structured business insight.",
       detail:
-        "Built automated crawling using Selenium, sitemap parsing, regex extraction, and structured parsing. Stored cleaned laptop records in SQLite and used regression, decision trees, clustering, and comparative analysis to identify the drivers of price, product popularity, and discounting behavior.",
-      tags: ["Python", "Selenium", "SQLite", "Regression", "Decision Trees", "K-Means"],
+        "What makes this project important is the business question behind it: why are some products priced or discounted differently from others? I used this project to move from raw product listings to insights around pricing logic, product segmentation, and the signals that may influence discount behaviour.",
+      tags: [
+        "Pricing Analysis",
+        "Business Insight",
+        "Web Data",
+        "Python",
+        "Machine Learning",
+        "SQLite",
+      ],
       image: "/bestbuy-project.png",
       icon: <Database className="h-12 w-12" />,
       insights: [
-        "CPU tier and RAM were the strongest pricing drivers",
-        "Discounting appeared to be influenced more by reviews and engagement than specs",
-        "Built the full lifecycle from raw web extraction to business insight",
+        "Linked technical product attributes to pricing patterns",
+        "Explored how visibility and engagement may relate to discounting",
+        "Turned unstructured online data into a business analysis workflow",
       ],
     },
     {
       id: "spotify",
       title: "Spotify Dashboard",
-      subtitle: "Business Intelligence & User-Friendly KPI Storytelling",
+      subtitle: "Business intelligence storytelling through dashboard design",
       description:
-        "Designed a BI-focused dashboard experience around music performance metrics, trends, and category comparisons while keeping the interface simple and intuitive for end users.",
+        "Designed a dashboard experience that turns music performance data into simple, relevant, and user-friendly business insight.",
       detail:
-        "This project demonstrates my dashboarding approach: simplify complex data into a visual experience that remains intuitive, decision-friendly, and engaging. I focused on selecting the right measures, reducing clutter, and presenting meaningful comparisons in a way that made the analysis easy to navigate.",
-      tags: ["Power BI", "Dashboarding", "DAX", "Data Modeling", "Storytelling"],
+        "The challenge in this project was not just building charts. It was deciding what mattered most, reducing clutter, and presenting the data in a way that felt intuitive. I wanted the dashboard to guide a user toward insight, not force them to search for it.",
+      tags: [
+        "Business Intelligence",
+        "Dashboard Design",
+        "Storytelling",
+        "Power BI",
+        "Data Modeling",
+      ],
       image: "/spotify.png",
       icon: <Music4 className="h-12 w-12" />,
       insights: [
-        "Balanced analytical depth with a simple, user-friendly layout",
-        "Focused on relevant KPIs instead of overcrowding the report",
-        "Designed for clear navigation and intuitive business storytelling",
+        "Prioritized clarity over visual overload",
+        "Focused on how users consume information, not just how data looks",
+        "Demonstrated business storytelling through dashboard structure",
       ],
     },
   ];
@@ -224,85 +388,88 @@ export default function Page() {
   const experience: Experience[] = [
     {
       company: "Thorogood",
-      title:
-        "Manager – Data & Analytics Consulting | BI Strategy, Power BI, Supply Chain Analytics",
+      title: "Manager – Data and Analytics Consulting",
       period: "2023 – 2024",
       bullets: [
-        "Led cross-functional analytics initiatives for global clients, translating business problems into scalable BI and reporting solutions.",
-        "Designed KPI frameworks and dashboards to monitor inventory, demand, and forecast performance across supply chain operations.",
-        "Directed analysts building 5–10 Power BI dashboards to improve reporting standardization and business visibility.",
-        "Partnered with stakeholders across geographies to align reporting outputs with business goals.",
-        "Recognized in the Unilever client newsletter for outstanding contribution to a major migration initiative converting Tableau dashboards into Power BI reports and improving adoption.",
+        "Led analytics initiatives for global clients by translating business problems into reporting structures, decision frameworks, and dashboard solutions.",
+        "Designed key performance indicator frameworks to improve visibility across supply chain planning, inventory, demand, and forecasting.",
+        "Managed delivery of multiple Power BI dashboards that improved reporting consistency and business visibility across teams.",
+        "Recognized in the Unilever client newsletter for outstanding contribution to a major Tableau-to-Power BI migration initiative.",
       ],
     },
     {
       company: "Thorogood",
-      title:
-        "Data & Analytics Consultant | Power BI, SQL, Alteryx, Data Visualization",
+      title: "Data and Analytics Consultant",
       period: "2020 – 2023",
       bullets: [
-        "Delivered end-to-end BI solutions by integrating data from multiple sources and transforming them into actionable insights using SQL and Power BI.",
-        "Designed interactive dashboards and scorecards tracking supply chain and financial KPIs for leadership decision-making.",
-        "Led a Tableau-to-Power BI migration of 6 complex dashboards into scalable Power BI reports, improving performance, usability, and adoption.",
-        "Built and optimized SQL queries to structure large datasets for reporting and analytics.",
+        "Built end-to-end business intelligence solutions by combining data from multiple sources and turning it into decision-ready reporting.",
+        "Designed dashboards and scorecards to monitor financial and supply chain performance for leadership teams.",
+        "Led migration of six complex Tableau dashboards into scalable Power BI reports, improving usability, performance, and adoption.",
+        "Worked closely with stakeholders to translate reporting requirements into usable business metrics and dashboard logic.",
       ],
     },
     {
       company: "Cypress Atlantic",
-      title: "Data & Business Analytics Intern | Python, SQL, Power BI",
+      title: "Data and Business Analytics Intern",
       period: "2025",
       bullets: [
-        "Integrated multi-source data including POS, OCR invoices, and cloud storage into structured datasets for reporting and analysis.",
-        "Built 6+ BI dashboards tracking revenue, COGS, and operational KPIs to support data-driven decision-making.",
-        "Automated data ingestion pipelines using Python to improve data availability and reporting accuracy.",
+        "Integrated point-of-sale, invoice, and cloud-based data into structured reporting workflows.",
+        "Built business intelligence dashboards to track revenue, cost of goods sold, and operational performance.",
+        "Used data analysis to highlight cost issues, trend shifts, and reporting inconsistencies that could affect decision-making.",
       ],
     },
     {
       company: "University of Massachusetts Boston",
-      title: "Graduate Assistant – Analytics & Data Platforms",
+      title: "Graduate Assistant – Analytics and Data Platforms",
       period: "2025 – Present",
       bullets: [
-        "Designed and built a data-driven platform to analyze patent datasets and support structured decision-making.",
-        "Developed backend data pipelines using Python, SQL, and APIs to process and analyze large-scale datasets.",
-        "Translated analytical outputs into interpretable insights for non-technical stakeholders.",
+        "Supported the design of a platform that helps users work with patent-related data in a more structured and interpretable way.",
+        "Worked on the logic, data flow, and analysis behind how users retrieve and interpret similar results.",
+        "Focused on turning technical output into something more understandable for non-technical users.",
       ],
     },
   ];
 
   const skillGroups = [
     {
-      title: "Analytics & BI",
+      title: "Business Intelligence and Analysis",
       items: [
         { name: "Power BI", icon: <BarChart3 className="h-6 w-6" /> },
         { name: "Excel", icon: <FileText className="h-6 w-6" /> },
         { name: "Tableau", icon: <LayoutDashboard className="h-6 w-6" /> },
-        { name: "SQL", icon: <Database className="h-6 w-6" /> },
-        { name: "Business Analysis", icon: <Briefcase className="h-6 w-6" /> },
+        { name: "Structured Business Analysis", icon: <Briefcase className="h-6 w-6" /> },
+        { name: "Dashboard Design", icon: <LayoutDashboard className="h-6 w-6" /> },
       ],
     },
     {
-      title: "Data Engineering & Automation",
+      title: "Data Engineering and Automation",
       items: [
         { name: "Python", icon: <Code2 className="h-6 w-6" /> },
+        { name: "SQL", icon: <Database className="h-6 w-6" /> },
         { name: "Azure Data Factory", icon: <Factory className="h-6 w-6" /> },
         { name: "Databricks", icon: <Workflow className="h-6 w-6" /> },
-        { name: "Alteryx", icon: <Bot className="h-6 w-6" /> },
-        { name: "Power Automate", icon: <Workflow className="h-6 w-6" /> },
+        { name: "Alteryx and Power Automate", icon: <Bot className="h-6 w-6" /> },
       ],
     },
     {
-      title: "Advanced Analytics",
+      title: "Operations and Advanced Analytics",
       items: [
         { name: "Supply Chain Analytics", icon: <Truck className="h-6 w-6" /> },
-        { name: "Web Scraping", icon: <Search className="h-6 w-6" /> },
         { name: "Machine Learning", icon: <Cpu className="h-6 w-6" /> },
-        { name: "KPI Design", icon: <BarChart3 className="h-6 w-6" /> },
-        { name: "Dashboarding", icon: <LayoutDashboard className="h-6 w-6" /> },
+        { name: "Web Data Collection", icon: <Search className="h-6 w-6" /> },
+        { name: "Performance Measurement", icon: <BarChart3 className="h-6 w-6" /> },
+        { name: "Decision Support", icon: <Briefcase className="h-6 w-6" /> },
       ],
     },
   ];
 
   const certifications: Certification[] = [
+    {
+      title: "Salesforce Certified Platform Administrator",
+      issuer: "Salesforce",
+      issued: "Issued March 2026",
+      file: "/salesforce-platform-admin.png",
+    },
     {
       title: "Microsoft Certified: Power BI Data Analyst Associate",
       issuer: "Microsoft",
@@ -312,19 +479,19 @@ export default function Page() {
     {
       title: "Python Essential Training",
       issuer: "LinkedIn Learning",
-      issued: "Issued Mar 2024",
+      issued: "Issued March 2024",
       file: "/python-essential-training.pdf",
     },
     {
       title: "Six Sigma Foundations",
       issuer: "LinkedIn Learning",
-      issued: "Issued Jan 2025",
+      issued: "Issued January 2025",
       file: "/six-sigma-foundations.pdf",
     },
     {
       title: "R for Data Science: Analysis and Visualization",
       issuer: "LinkedIn Learning",
-      issued: "Issued Sep 2024",
+      issued: "Issued September 2024",
       file: "/r-data-science-analysis-visualization.pdf",
     },
   ];
@@ -464,14 +631,14 @@ export default function Page() {
         <Reveal delay={0.08}>
           <div>
             <h2 className="text-4xl font-black leading-tight tracking-tight text-slate-950 md:text-7xl">
-              Data that drives
+              Turning data into
               <span className="block bg-gradient-to-r from-cyan-600 via-sky-700 to-indigo-700 bg-clip-text text-transparent">
                 clearer business decisions
               </span>
             </h2>
 
             <p className="mt-6 max-w-2xl text-lg leading-9 text-slate-800 md:text-2xl md:leading-10">
-              I’m a Business Analytics graduate student at UMass Boston, building my career at the intersection of analytics, business decision-making, and supply chain insight. With consulting experience across BI reporting, KPI design, and operational analysis, I enjoy turning messy data into structured decisions leaders can use.
+              I am a Business Analytics graduate student at the University of Massachusetts Boston with consulting experience across reporting, performance measurement, and operational decision support. My work is centered on helping businesses understand what is happening, why it is happening, and what they should pay attention to next.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -480,6 +647,7 @@ export default function Page() {
                 href="/Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("resume_click", { location: "hero" })}
                 className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-6 py-3 text-base font-semibold text-white transition hover:bg-slate-900 md:text-lg"
               >
                 <FileText className="h-5 w-5" />
@@ -491,6 +659,7 @@ export default function Page() {
                 href="https://www.linkedin.com/in/adarshsathyanarayanan/"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("linkedin_click", { location: "hero_button" })}
                 className="inline-flex items-center gap-2 rounded-2xl border-2 border-slate-900 px-6 py-3 text-base font-semibold transition hover:bg-slate-900 hover:text-white md:text-lg"
               >
                 <ArrowUpRight className="h-5 w-5" />
@@ -503,6 +672,7 @@ export default function Page() {
                 href="https://www.linkedin.com/in/adarshsathyanarayanan/"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("linkedin_click", { location: "hero_icon" })}
                 className="text-[#0A66C2] transition hover:scale-110"
                 aria-label="LinkedIn"
               >
@@ -513,6 +683,7 @@ export default function Page() {
                 href="https://wa.me/18573399180"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("whatsapp_click", { location: "hero" })}
                 className="text-green-600 transition hover:scale-110"
                 aria-label="WhatsApp"
               >
@@ -522,14 +693,14 @@ export default function Page() {
 
             <div className="mt-8 grid gap-3 md:max-w-2xl md:grid-cols-3">
               {[
-                "Data Analysis & Dashboards",
-                "Business Analysis",
-                "Supply Chain Analytics",
+                "Business intelligence and reporting",
+                "Business analysis and decision support",
+                "Supply chain and operations analytics",
               ].map((item, idx) => (
                 <Reveal key={item} delay={0.1 + idx * 0.05}>
                   <GlassCard className="p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-600">
-                      Hire me for
+                      Focus Area
                     </p>
                     <p className="mt-2 text-sm font-semibold md:text-base">{item}</p>
                   </GlassCard>
@@ -544,7 +715,7 @@ export default function Page() {
         <Reveal>
           <h2 className="mb-4 text-5xl font-black tracking-tight md:text-6xl">Skills</h2>
           <p className="mb-10 max-w-3xl text-lg leading-8 text-slate-700 md:text-xl">
-            My skill set combines business intelligence, analytics, automation, and data engineering tools that help convert complex data into clear business decisions.
+            My skill set combines business thinking, reporting, analytics, automation, and data tools that support decision-making in a practical and business-friendly way.
           </p>
         </Reveal>
 
@@ -577,7 +748,7 @@ export default function Page() {
           <div className="mb-10">
             <h2 className="text-5xl font-black tracking-tight md:text-6xl">Education</h2>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-700 md:text-xl">
-              My academic foundation combines business analytics, supply chain thinking, quantitative modeling, and technical problem solving.
+              My academic foundation combines analytics, supply chain thinking, quantitative modelling, and practical business problem solving.
             </p>
           </div>
         </Reveal>
@@ -611,7 +782,7 @@ export default function Page() {
                     "Big Data – AWS",
                     "Business Intelligence",
                     "Management Decision Model",
-                    "Multivariate & Regression",
+                    "Multivariate and Regression",
                   ].map((course) => (
                     <div
                       key={course}
@@ -632,8 +803,12 @@ export default function Page() {
                 <h3 className="text-3xl font-black md:text-4xl">RV College of Engineering</h3>
               </div>
 
-              <p className="text-xl font-bold">B.E. in Electrical and Electronics Engineering</p>
-              <p className="mt-1 text-lg italic">Best Final Project Award in the department</p>
+              <p className="text-xl font-bold">
+                Bachelor of Engineering in Electrical and Electronics Engineering
+              </p>
+              <p className="mt-1 text-lg italic">
+                Best Final Project Award in the department
+              </p>
             </GlassCard>
           </Reveal>
         </div>
@@ -644,7 +819,7 @@ export default function Page() {
           <div className="mb-10">
             <h2 className="text-5xl font-black tracking-tight md:text-6xl">Experience</h2>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-700 md:text-xl">
-              My experience combines BI development, stakeholder-facing analytics, supply chain reporting, process automation, and data platform work across consulting and academic settings.
+              My experience combines reporting, decision support, operational visibility, performance measurement, and stakeholder-facing analytics across consulting and academic environments.
             </p>
           </div>
         </Reveal>
@@ -680,7 +855,7 @@ export default function Page() {
           <div className="mb-12">
             <h2 className="text-5xl font-black tracking-tight md:text-7xl">Projects</h2>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-700 md:text-xl">
-              A selection of projects that reflect my strengths in analytics, business intelligence, structured problem solving, and turning complex data into useful decisions.
+              These projects are less about the technology itself and more about how structured analysis, clear reporting, and thoughtful design can help someone make a better decision.
             </p>
           </div>
         </Reveal>
@@ -725,6 +900,33 @@ export default function Page() {
                   <p className="mt-6 text-base leading-8 text-slate-700 md:text-xl md:leading-9">
                     {project.detail}
                   </p>
+
+                  {project.id === "patent" && (
+                    <ProjectExplainer
+                      businessValue="This project is about reducing uncertainty early. Instead of forcing a student or innovator to manually search through a confusing patent process, it helps them get to a clearer first-level understanding of whether an idea may already exist in a similar form."
+                      technicalApproach="I focused on creating a workflow that could retrieve and organize relevant information in a way that felt structured rather than overwhelming. The emphasis was not just search, but interpretation and usability."
+                      interviewVersion="I would describe this as a decision-support project. The business value was in making a difficult research process more understandable, more efficient, and more useful for someone trying to evaluate an idea early."
+                    />
+                  )}
+
+                  {project.id === "bestbuy" && (
+                    <ProjectExplainer
+                      businessValue="This project is about understanding how products are positioned in a market. I used it to explore what may influence pricing and discount behaviour, and how raw online product data can be turned into useful commercial insight."
+                      technicalApproach="I built a workflow that collected product information, structured it into a usable dataset, and then used analysis to study patterns in price, discounting, and product characteristics."
+                      interviewVersion="I would position this as a pricing and product analysis project. The value was in moving from unstructured online data to insights that could support better understanding of pricing behaviour and market positioning."
+                    />
+                  )}
+
+                  {project.id === "spotify" && (
+                    <>
+                      <DashboardPreview />
+                      <ProjectExplainer
+                        businessValue="This project is about making data easy to consume. The business value was not just showing numbers, but helping a user quickly understand performance, trends, and comparisons without getting lost in the dashboard."
+                        technicalApproach="I focused on layout, metric selection, flow, and visual hierarchy. The challenge was deciding what to include, what to simplify, and how to guide the user naturally through the information."
+                        interviewVersion="I would explain this as a dashboard design and business storytelling project. The complexity was in turning dense information into something simple, relevant, and genuinely useful for decision-making."
+                      />
+                    </>
+                  )}
 
                   {project.insights && (
                     <div className="mt-8">
@@ -791,13 +993,18 @@ export default function Page() {
             <DarkFeatureCard className="p-8">
               <div className="mb-4 flex items-center gap-3">
                 <Trophy className="h-7 w-7" />
-                <h3 className="text-3xl font-black">Academic & Professional Recognition</h3>
+                <h3 className="text-3xl font-black">
+                  Academic and Professional Recognition
+                </h3>
               </div>
               <ul className="mt-6 space-y-4 text-lg leading-8 md:text-2xl md:leading-10">
                 <li>Beta Gamma Sigma – University of Massachusetts Boston</li>
-                <li>4.0 GPA – MS in Business Analytics</li>
+                <li>4.0 GPA – Master of Science in Business Analytics</li>
+                <li>Salesforce Certified Platform Administrator</li>
                 <li>Microsoft Certified: Power BI Data Analyst Associate</li>
-                <li>Best Final Project Award – Electrical & Electronics Engineering</li>
+                <li>
+                  Best Final Project Award – Electrical and Electronics Engineering
+                </li>
               </ul>
             </DarkFeatureCard>
           </Reveal>
@@ -806,13 +1013,16 @@ export default function Page() {
             <DarkFeatureCard className="p-8">
               <div className="mb-4 flex items-center gap-3">
                 <Award className="h-7 w-7" />
-                <h3 className="text-3xl font-black">Thorogood Awards</h3>
+                <h3 className="text-3xl font-black">Thorogood Recognition</h3>
               </div>
               <ul className="mt-6 space-y-4 text-lg leading-8 md:text-2xl md:leading-10">
                 <li>Thorogood Star Award – November 2022</li>
                 <li>Thorogood Star Award – January 2023</li>
                 <li>Thorogood Star Award – June 2023</li>
-                <li>Featured in the Unilever client newsletter for outstanding migration work on Tableau to Power BI dashboard conversion.</li>
+                <li>
+                  Featured in the Unilever client newsletter for outstanding work on
+                  a major dashboard migration initiative from Tableau to Power BI.
+                </li>
               </ul>
             </DarkFeatureCard>
           </Reveal>
@@ -820,7 +1030,12 @@ export default function Page() {
 
         <Reveal delay={0.08}>
           <div className="mt-10">
-            <h3 className="mb-6 text-3xl font-black">Certifications</h3>
+            <h3 className="mb-3 text-3xl font-black">Certifications</h3>
+            <p className="mb-6 max-w-3xl text-base leading-7 text-slate-700 md:text-lg">
+              These certifications strengthen my foundation across business
+              intelligence, platform administration, process improvement, and
+              analytical problem solving.
+            </p>
             <div className="grid gap-4 md:grid-cols-2">
               {certifications.map((cert) => (
                 <motion.a
@@ -829,6 +1044,7 @@ export default function Page() {
                   href={cert.file}
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() => track("certificate_click", { title: cert.title })}
                   className="rounded-2xl border border-white/60 bg-white/55 p-5 shadow-sm transition hover:shadow-md"
                 >
                   <div className="flex items-start gap-4">
@@ -836,8 +1052,12 @@ export default function Page() {
                       <BadgeCheck className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-black text-slate-900">{cert.title}</h4>
-                      <p className="mt-1 text-sm text-slate-600">{cert.issuer}</p>
+                      <h4 className="text-lg font-black leading-7 text-slate-900">
+                        {cert.title}
+                      </h4>
+                      <p className="mt-1 text-sm font-medium text-slate-600">
+                        {cert.issuer}
+                      </p>
                       <p className="text-sm text-slate-500">{cert.issued}</p>
                       <p className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-cyan-800">
                         Open Certificate <ExternalLink className="h-4 w-4" />
@@ -862,7 +1082,9 @@ export default function Page() {
           <Reveal>
             <div>
               <p className="text-lg text-slate-700 md:text-xl">
-                I’m excited to connect with you.
+                I’m always happy to connect around analytics, reporting, business
+                intelligence, and opportunities where data can drive better
+                decisions.
               </p>
 
               <div className="mt-10 space-y-8">
@@ -895,6 +1117,10 @@ export default function Page() {
                     (form.elements.namedItem("subject") as HTMLInputElement)?.value || "";
                   const message =
                     (form.elements.namedItem("message") as HTMLTextAreaElement)?.value || "";
+
+                  track("contact_form_submit", {
+                    subject: subject || "Portfolio Contact",
+                  });
 
                   const body =
                     `Name: ${firstName} ${lastName}\n\n` +
@@ -938,7 +1164,9 @@ export default function Page() {
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-bold">Message Subject</label>
+                    <label className="mb-2 block text-sm font-bold">
+                      Message Subject
+                    </label>
                     <input
                       type="text"
                       name="subject"
@@ -973,8 +1201,8 @@ export default function Page() {
           <div>
             <h3 className="text-2xl font-black">Adarsh Sathyanarayanan</h3>
             <p className="mt-3 text-base leading-7 text-slate-300">
-              Business Analytics graduate student focused on data analysis, business insight, and
-              supply chain decision support.
+              Business Analytics graduate student focused on analytics, reporting,
+              business insight, and supply chain decision support.
             </p>
           </div>
 
@@ -1003,6 +1231,7 @@ export default function Page() {
                 href="https://www.linkedin.com/in/adarshsathyanarayanan/"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("linkedin_click", { location: "footer" })}
                 className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-semibold transition hover:bg-white/20"
               >
                 <Linkedin className="h-4 w-4" />
@@ -1013,6 +1242,7 @@ export default function Page() {
                 href="/Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("resume_click", { location: "footer" })}
                 className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-semibold transition hover:bg-white/20"
               >
                 <FileText className="h-4 w-4" />
