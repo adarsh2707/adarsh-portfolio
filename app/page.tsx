@@ -319,6 +319,8 @@ export default function Page() {
   ];
 
   const certifications: Certification[] = [
+    { title: "MS in Business Analytics Award for Academic Distinction", issuer: "University of Massachusetts Boston", issued: "May 2026", file: "/distinction-award.pdf" },
+    { title: "Beta Gamma Sigma – Honor Society Membership", issuer: "University of Massachusetts Boston", issued: "Apr 2026", file: "/bgs-certificate.pdf" },
     { title: "Salesforce Certified Platform Administrator", issuer: "Salesforce", issued: "Issued March 2026", file: "/salesforce-platform-admin.png" },
     { title: "Microsoft Certified: Power BI Data Analyst Associate", issuer: "Microsoft", issued: "Credential", file: "/powerbi-cert.pdf" },
     { title: "Python Essential Training", issuer: "LinkedIn Learning", issued: "Issued March 2024", file: "/python-essential-training.pdf" },
@@ -426,13 +428,20 @@ export default function Page() {
 
         <Reveal delay={0.08}>
           <div>
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-cyan-700">Available from May 2026 · Boston, MA</p>
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-cyan-700">Available Immediately · Boston, MA</p>
             <h2 className="text-4xl font-black leading-tight tracking-tight text-slate-950 md:text-6xl">
-              Consultant-turned-engineer.
-              <span className="block bg-gradient-to-r from-cyan-600 via-sky-700 to-indigo-700 bg-clip-text text-transparent">Pipelines, not just dashboards.</span>
+              Analytics professional.
+              <span className="block bg-gradient-to-r from-cyan-600 via-sky-700 to-indigo-700 bg-clip-text text-transparent">Turning data into decisions.</span>
             </h2>
+            <div className="mt-5 inline-flex items-center gap-2.5 rounded-2xl border border-amber-300/60 bg-amber-50/80 px-4 py-2.5 shadow-sm">
+              <Trophy className="h-5 w-5 shrink-0 text-amber-600" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.15em] text-amber-700">Department Distinction Award 2026</p>
+                <p className="text-sm font-semibold text-slate-800">Most Outstanding MS Graduate · UMass Boston</p>
+              </div>
+            </div>
             <p className={"mt-6 max-w-2xl text-lg leading-9 md:text-xl md:leading-10 " + (darkMode ? "text-slate-300" : "text-slate-700")}>
-              I bridge the gap between business problems and data infrastructure. 3.5 years delivering end-to-end analytics across supply chain, logistics, and financial operations for global clients. MS in Business Analytics (GPA 4.0) at UMass Boston.
+              3.5 years delivering end-to-end analytics across supply chain, commercial operations, and financial platforms for global clients including Unilever, J&amp;J, and Primark. MS in Business Analytics (GPA 4.0) at UMass Boston.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <motion.a whileHover={{ y: -2, scale: 1.02 }} href="/Resume.pdf" target="_blank" rel="noreferrer" onClick={() => track("resume_click", { location: "hero" })} className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-slate-800">
@@ -487,6 +496,7 @@ export default function Page() {
               { name: "Unilever", note: "Client Newsletter Feature" },
               { name: "Cypress Atlantic", note: "Data & Analytics Intern" },
               { name: "Beta Gamma Sigma", note: "Academic Excellence Award" },
+              { name: "Distinction Award", note: "Most Outstanding Graduate 2026" },
             ].map((org) => (
               <div key={org.name} className="flex flex-col items-center gap-1">
                 <span className={"text-base font-black " + (darkMode ? "text-slate-200" : "text-slate-800")}>{org.name}</span>
@@ -678,6 +688,24 @@ export default function Page() {
       <section id="achievements" className="mx-auto max-w-7xl px-6 py-12 md:py-16">
         <Reveal><h2 className="mb-10 text-5xl font-black tracking-tight md:mb-14 md:text-6xl">Achievements</h2></Reveal>
         <Reveal>
+          <div className="mb-6 overflow-hidden rounded-3xl border-2 border-amber-300/70 bg-gradient-to-br from-amber-50 via-white to-yellow-50 p-8 shadow-[0_18px_40px_rgba(217,119,6,0.12)]">
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700"><Trophy className="h-6 w-6" /></div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-700">Highest Academic Honor</p>
+                <h3 className="text-2xl font-black text-slate-900">MS in Business Analytics Award for Academic Distinction</h3>
+              </div>
+            </div>
+            <p className="mb-6 text-base leading-7 text-slate-700">Presented to the graduating student who has demonstrated the <strong>highest academic achievement</strong> in the MS in Business Analytics program. Signed by <strong>Dean Venky Venkatachalam, Ph.D.</strong>, College of Management, University of Massachusetts Boston — May 18, 2026.</p>
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <a href="/distinction-award.pdf" target="_blank" rel="noreferrer" onClick={() => track("certificate_click", { title: "distinction_award" })} className="inline-flex items-center gap-2 rounded-xl bg-amber-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-amber-600">
+                <ExternalLink className="h-4 w-4" /> View Certificate
+              </a>
+              <p className="text-sm text-slate-500">University of Massachusetts Boston · May 2026</p>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal>
           <GlassCard className="mb-10 p-8">
             <div className="mb-5 flex items-center gap-3">
               <Trophy className="h-7 w-7 text-cyan-800" />
@@ -686,7 +714,7 @@ export default function Page() {
             <div className="flex justify-center">
               <img src="/bgs.png" alt="Beta Gamma Sigma Certificate" className="max-h-[650px] w-full max-w-3xl rounded-2xl border border-black/10 object-contain shadow-md" />
             </div>
-            <p className="mt-4 text-center text-sm text-slate-500">Beta Gamma Sigma – University of Massachusetts Boston</p>
+            <p className="mt-4 text-center text-sm text-slate-500">Beta Gamma Sigma – University of Massachusetts Boston · April 8, 2026</p>
           </GlassCard>
         </Reveal>
         <div className="grid gap-6 md:grid-cols-2">
@@ -694,7 +722,7 @@ export default function Page() {
             <DarkCard className="p-8">
               <div className="mb-4 flex items-center gap-3"><Trophy className="h-7 w-7" /><h3 className="text-2xl font-black">Academic & Professional</h3></div>
               <ul className="mt-4 space-y-3 text-base leading-8">
-                {["Passion Award – Thorogood (2022) for leading an automated end-to-end supply chain analytics system", "Beta Gamma Sigma – University of Massachusetts Boston", "4.0 GPA – Master of Science in Business Analytics", "Salesforce Certified Platform Administrator", "Microsoft Certified: Power BI Data Analyst Associate", "Best Final Project Award – Electrical & Electronics Engineering"].map((item) => (
+                {["Department Distinction Award (2026) – Most Outstanding MS in Business Analytics Graduate, UMass Boston", "Passion Award – Thorogood (2022) for leading an automated end-to-end supply chain analytics system", "Beta Gamma Sigma – University of Massachusetts Boston", "4.0 GPA – Master of Science in Business Analytics", "Salesforce Certified Platform Administrator", "Microsoft Certified: Power BI Data Analyst Associate", "Best Final Project Award – Electrical & Electronics Engineering"].map((item) => (
                   <li key={item} className="flex gap-3"><ChevronRight className="mt-1 h-4 w-4 shrink-0 text-cyan-400" /><span>{item}</span></li>
                 ))}
               </ul>
@@ -704,7 +732,7 @@ export default function Page() {
             <DarkCard className="p-8">
               <div className="mb-4 flex items-center gap-3"><Award className="h-7 w-7" /><h3 className="text-2xl font-black">Thorogood Recognition</h3></div>
               <ul className="mt-4 space-y-3 text-base leading-8">
-                {["Thorogood Star Award – November 2022", "Thorogood Star Award – January 2023", "Thorogood Star Award – June 2023", "Featured in the Unilever client newsletter for outstanding work on the Tableau-to-Power BI migration initiative."].map((item) => (
+                {["Thorogood Star Award – November 2022, January 2023, June 2023 (3× recipient)", "Featured in the Unilever client newsletter for outstanding work on the Tableau-to-Power BI migration initiative."].map((item) => (
                   <li key={item} className="flex gap-3"><ChevronRight className="mt-1 h-4 w-4 shrink-0 text-cyan-400" /><span>{item}</span></li>
                 ))}
               </ul>
@@ -740,7 +768,7 @@ export default function Page() {
         <div className="grid gap-10 md:grid-cols-2">
           <Reveal>
             <div>
-              <p className="text-lg leading-8 text-slate-700">Open to full-time roles in data engineering, business analytics, and supply chain analytics. Based in Boston, MA and available from May 2026. Feel free to reach out about opportunities, collaborations, or just to talk data.</p>
+              <p className="text-lg leading-8 text-slate-700">Open to full-time roles in data engineering, business analytics, supply chain analytics, and strategy operations. Based in Boston, MA and available immediately. Feel free to reach out about opportunities, collaborations, or just to talk data.</p>
               <div className="mt-10 space-y-6">
                 <div>
                   <h3 className="text-xl font-bold">Phone</h3>
@@ -819,14 +847,14 @@ export default function Page() {
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:grid-cols-3">
           <div>
             <h3 className="text-xl font-black">Adarsh Sathyanarayanan</h3>
-            <p className="mt-3 text-sm leading-7 text-slate-400">Consultant-turned-engineer. Building the pipelines, KPI frameworks, and AI-driven analytics systems that turn raw data into decisions that actually get made.</p>
+            <p className="mt-3 text-sm leading-7 text-slate-400">Analytics professional delivering data-driven strategy, KPI frameworks, and AI-powered systems that turn raw data into decisions that actually get made.</p>
           </div>
           <div>
             <h4 className="text-base font-bold">Contact</h4>
             <div className="mt-4 space-y-2.5 text-sm text-slate-400">
               <p className="flex items-center gap-2"><Mail className="h-4 w-4" />adarshsathya27@gmail.com</p>
               <p className="flex items-center gap-2"><Phone className="h-4 w-4" />+1 857-339-9180</p>
-              <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />Boston, MA · Available May 2026</p>
+              <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />Boston, MA · Available Immediately</p>
             </div>
           </div>
           <div>
