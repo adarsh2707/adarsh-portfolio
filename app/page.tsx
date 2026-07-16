@@ -321,6 +321,7 @@ export default function Page() {
   const certifications: Certification[] = [
     { title: "MS in Business Analytics Award for Academic Distinction", issuer: "University of Massachusetts Boston", issued: "May 2026", file: "/distinction-award.pdf" },
     { title: "Beta Gamma Sigma – Honor Society Membership", issuer: "University of Massachusetts Boston", issued: "Apr 2026", file: "/bgs-certificate.pdf" },
+    { title: "Google AI Professional Certificate", issuer: "Google", issued: "Jul 2026", file: "/google-ai-professional-certificate.pdf" },
     { title: "Salesforce Certified Platform Administrator", issuer: "Salesforce", issued: "Issued March 2026", file: "/salesforce-platform-admin.png" },
     { title: "Microsoft Certified: Power BI Data Analyst Associate", issuer: "Microsoft", issued: "Credential", file: "/powerbi-cert.pdf" },
     { title: "Python Essential Training", issuer: "LinkedIn Learning", issued: "Issued March 2024", file: "/python-essential-training.pdf" },
