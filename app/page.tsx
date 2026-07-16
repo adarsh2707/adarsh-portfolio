@@ -373,7 +373,7 @@ export default function Page() {
       {/* Floating CTA */}
       {showFloatingCTA && !ctaDismissed && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-          <motion.a whileHover={{ scale: 1.05 }} href="mailto:adarshsathya27@gmail.com" onClick={() => track("floating_cta_email")} className="flex items-center gap-2 rounded-2xl bg-cyan-700 px-5 py-3 text-sm font-bold text-white shadow-[0_8px_30px_rgba(8,145,178,0.4)] transition hover:bg-cyan-600">
+          <motion.a whileHover={{ scale: 1.05 }} href="mailto:adarsh2707@gmail.com" onClick={() => track("floating_cta_email")} className="flex items-center gap-2 rounded-2xl bg-cyan-700 px-5 py-3 text-sm font-bold text-white shadow-[0_8px_30px_rgba(8,145,178,0.4)] transition hover:bg-cyan-600">
             <Mail className="h-4 w-4" /> Let&apos;s Connect
           </motion.a>
           <button onClick={() => setCtaDismissed(true)} className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800/80 text-white backdrop-blur-sm transition hover:bg-slate-700">
@@ -776,7 +776,7 @@ export default function Page() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold">Email</h3>
-                  <a href="mailto:adarshsathya27@gmail.com" className="mt-1 flex items-center gap-2 text-lg text-slate-800 hover:text-cyan-700"><Mail className="h-4 w-4" />adarshsathya27@gmail.com</a>
+                  <a href="mailto:adarsh2707@gmail.com" className="mt-1 flex items-center gap-2 text-lg text-slate-800 hover:text-cyan-700"><Mail className="h-4 w-4" />adarsh2707@gmail.com</a>
                 </div>
                 <div>
                   <h3 className="text-xl font-bold">Connect Instantly</h3>
@@ -830,7 +830,7 @@ export default function Page() {
                   </div>
                   <div><label className="mb-2 block text-sm font-bold">Message</label><textarea rows={5} name="message" required className="w-full rounded-xl border-2 border-black/70 bg-transparent px-4 py-3 outline-none focus:border-cyan-600" /></div>
                   {formStatus === "error" && (
-                    <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">Something went wrong. Please email me directly at adarshsathya27@gmail.com</p>
+                    <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">Something went wrong. Please email me directly at adarsh2707@gmail.com</p>
                   )}
                   <button type="submit" disabled={formStatus === "sending"} className="w-fit rounded-xl bg-cyan-700 px-8 py-3 text-base font-bold text-white transition hover:bg-cyan-600 hover:shadow-lg disabled:opacity-60">
                     {formStatus === "sending" ? "Sending..." : "Send Message"}
@@ -852,7 +852,7 @@ export default function Page() {
           <div>
             <h4 className="text-base font-bold">Contact</h4>
             <div className="mt-4 space-y-2.5 text-sm text-slate-400">
-              <p className="flex items-center gap-2"><Mail className="h-4 w-4" />adarshsathya27@gmail.com</p>
+              <p className="flex items-center gap-2"><Mail className="h-4 w-4" />adarsh2707@gmail.com</p>
               <p className="flex items-center gap-2"><Phone className="h-4 w-4" />+1 857-339-9180</p>
               <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />Boston, MA · Available Immediately</p>
             </div>
